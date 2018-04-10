@@ -2,11 +2,18 @@ import click
 import json
 from itertools import chain
 from os.path import commonprefix
-from tabulate import tabulate
+from tabulate import tabulate, _table_formats
 from subprocess import Popen, PIPE
 
 
 @click.command()
+@click.option(
+    '-t', '--tablefmt',
+    type=str,
+    default='psql',
+    envvar='TABLEFMT',
+    help='Tabulate table format.'
+)
 @click.option(
     '-c', '--chunk-size',
     default=3,
@@ -21,10 +28,14 @@ from subprocess import Popen, PIPE
     help='Do not strip common prefix.'
 )
 @click.argument('namespace', default='all')
-def main(namespace, chunk_size, no_strip):
+def main(namespace, chunk_size, no_strip, tablefmt):
     """
     Dump a table of the pods attached to each node.
     """
+
+    # set tablefmt
+    if tablefmt not in _table_formats:
+        tablefmt = 'psql'
 
     # set namespace appropriately
     if namespace == 'all':
@@ -70,7 +81,7 @@ def main(namespace, chunk_size, no_strip):
 
     # present
     for chunk in chunks:
-        print(tabulate(chunk, headers='keys', tablefmt='psql'))
+        print(tabulate(chunk, headers='keys', tablefmt=tablefmt))
 
 
 if __name__ == '__main__':

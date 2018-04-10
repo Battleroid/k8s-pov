@@ -12,6 +12,7 @@ Usage: k8s-pov [OPTIONS] [NAMESPACE]
   Dump a table of the pods attached to each node.
 
 Options:
+  -t, --tablefmt TEXT       Tabulate table format.
   -c, --chunk-size INTEGER  Chunk size (nodes per row).  [default: 3]
   -n, --no-strip            Do not strip common prefix.
   --help                    Show this message and exit.
