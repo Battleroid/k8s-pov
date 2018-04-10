@@ -7,7 +7,7 @@ Note: the node names (headers) have the common prefix stripped away. I hate sift
 If you're looking for something without tables, you can achieve something similar with kubectl using:
 
 ```
-$ kces get pods -o wide --sort-by ".spec.nodeName"
+$ kubectl -n elasticsearch get pods -o wide --sort-by ".spec.nodeName"
 NAME                         READY     STATUS    RESTARTS   AGE       IP           NODE
 es-data-5                    1/1       Running   0          3h        10.28.0.12   gke-fiddle-default-pool-af11f6b5-blp4
 es-data-1                    1/1       Running   0          3h        10.28.1.10   gke-fiddle-default-pool-af11f6b5-f1k2
