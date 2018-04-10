@@ -54,3 +54,7 @@ $ k8s-pov elasticsearch
 | es-data-3                    | es-data-4                    | es-data-5                    |
 +------------------------------+------------------------------+------------------------------+
 ```
+
+Example (with coloration indicating status):
+
+![example](images/example.png)
