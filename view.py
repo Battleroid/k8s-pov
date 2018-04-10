@@ -5,8 +5,11 @@ from os.path import commonprefix
 from tabulate import tabulate, _table_formats
 from subprocess import Popen, PIPE
 
+__version__ = '0.3'
+
 
 @click.command()
+@click.version_option(version=__version__)
 @click.option(
     '-t', '--tablefmt',
     type=str,
