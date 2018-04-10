@@ -2,7 +2,7 @@
 
 I just wanted to view how pods are laid out in a cluster without any fancy junk. This fits the bill.
 
-Note: the node names (headers) have the common prefix stripped away. I hate sifting through the node names trying to find the one portion that's actually different.
+Note: the node names (headers) have the common prefix stripped away. I hate sifting through the node names trying to find the one portion that's actually different. This can be disabled with `-n` or `--no-strip`.
 
 ## Usage
 
@@ -12,7 +12,8 @@ Usage: k8s-pov [OPTIONS] [NAMESPACE]
   Dump a table of the pods attached to each node.
 
 Options:
-  -c, --chunk-size INTEGER  Chunk size (nodes per row)  [default: 3]
+  -c, --chunk-size INTEGER  Chunk size (nodes per row).  [default: 3]
+  -n, --no-strip            Do not strip common prefix.
   --help                    Show this message and exit.
 ```
 

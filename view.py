@@ -11,11 +11,17 @@ from subprocess import Popen, PIPE
     '-c', '--chunk-size',
     default=3,
     type=int,
-    help='Chunk size (nodes per row)',
+    help='Chunk size (nodes per row).',
     show_default=True
 )
+@click.option(
+    '-n', '--no-strip',
+    default=False,
+    is_flag=True,
+    help='Do not strip common prefix.'
+)
 @click.argument('namespace', default='all')
-def main(namespace, chunk_size):
+def main(namespace, chunk_size, no_strip):
     """
     Dump a table of the pods attached to each node.
     """
@@ -45,11 +51,12 @@ def main(namespace, chunk_size):
         nodes[node].append(name)
 
     # truncate name to unique part
-    prefix = commonprefix(list(nodes.keys()))
-    for node in list(nodes.keys()):
-        pods = nodes.pop(node)
-        node = node.replace(prefix, '')
-        nodes[node] = pods
+    if not no_strip:
+        prefix = commonprefix(list(nodes.keys()))
+        for node in list(nodes.keys()):
+            pods = nodes.pop(node)
+            node = node.replace(prefix, '')
+            nodes[node] = pods
 
     # ensure constant width
     max_width = max(map(len, chain.from_iterable([nodes.keys(), *nodes.values()])))
