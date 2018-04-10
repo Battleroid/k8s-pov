@@ -2,6 +2,8 @@
 
 I just wanted to view how pods are laid out in a cluster without any fancy junk. This fits the bill.
 
+Note: the node names (headers) have the common prefix stripped away. I hate sifting through the node names trying to find the one portion that's actually different.
+
 ## Usage
 
 ```
