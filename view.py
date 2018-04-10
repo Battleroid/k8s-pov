@@ -53,13 +53,26 @@ def main(namespace, chunk_size, no_strip, tablefmt):
     if not data['items']:
         raise SystemExit('No pods/nodes found.')
 
+    # little map of status to color
+    status_map = {
+        'Running': 'green',
+        'Succeeded': 'green',
+        'Pending': 'yellow',
+        'Init': 'yellow',
+        'Failed': 'red',
+        'Terminating': 'red',
+        'Terminated': 'red',
+        'Unknown': 'red'
+    }
+
     # get pods per node
     nodes = {}
     for item in data['items']:
         node = item['spec']['nodeName']
         name = item['metadata']['name']
-        nodes.setdefault(node, [])
-        nodes[node].append(name)
+        status = status_map.get(item['status']['phase'], 'white')
+        nodes.setdefault(node, {})
+        nodes[node][name] = status
 
     # truncate name to unique part
     if not no_strip:
@@ -69,19 +82,22 @@ def main(namespace, chunk_size, no_strip, tablefmt):
             node = node.replace(prefix, '')
             nodes[node] = pods
 
-    # ensure constant width
-    max_width = max(map(len, chain.from_iterable([nodes.keys(), *nodes.values()])))
+    # ensure constant width, color pods according status
+    max_width = max(map(len, chain.from_iterable([nodes.keys(), *[p.keys() for p in nodes.values()]])))
     for node in list(nodes.keys()):
         pods = nodes.pop(node)
         node = node.ljust(max_width)
-        nodes[node] = pods
+        pretty_pods = []
+        for pod, color in pods.items():
+            pretty_pods.append(click.style(pod, fg=color))
+        nodes[node] = pretty_pods
 
     # chunk nodes to keep horizontal size down
     chunks = [dict(list(nodes.items())[x:x + chunk_size]) for x in range(0, len(nodes), chunk_size)]
 
     # present
     for chunk in chunks:
-        print(tabulate(chunk, headers='keys', tablefmt=tablefmt))
+        click.secho(tabulate(chunk, headers='keys', tablefmt=tablefmt))
 
 
 if __name__ == '__main__':

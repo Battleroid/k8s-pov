@@ -9,7 +9,7 @@ setup(
     name='k8s-pov',
     author='Casey Weed',
     author_email='cweed@caseyweed.com',
-    version='0.2',
+    version='0.3',
     description='Get map of pods to nodes',
     url='https://github.com/battleroid/k8s-pov',
     packages=find_packages(),
