@@ -5,7 +5,7 @@ from os.path import commonprefix
 from tabulate import tabulate, _table_formats
 from subprocess import Popen, PIPE
 
-__version__ = '0.3'
+__version__ = '0.3.1'
 
 
 @click.command()

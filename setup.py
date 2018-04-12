@@ -13,7 +13,7 @@ setup(
     version=pov_version,
     description='Get map of pods to nodes',
     url='https://github.com/battleroid/k8s-pov',
-    packages=find_packages(),
+    py_modules=['view'],
     install_requires=requirements,
     entry_points="""
         [console_scripts]
